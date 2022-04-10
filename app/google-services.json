@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951316286702",
+    "project_id": "lc6-firebase",
+    "storage_bucket": "lc6-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951316286702:android:a35aee55d9e7f05c1377ff",
+        "android_client_info": {
+          "package_name": "ru.nifontbus.lc6_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951316286702-acd3v8h705pp78i03cd7kfsa96t2kmi8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoxabl-Xr4BXG6s87TrSkRgA3mFcWDBds"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951316286702-acd3v8h705pp78i03cd7kfsa96t2kmi8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

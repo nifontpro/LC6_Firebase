@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LC6_Firebase</string>
+    <string name="sAddBioOk">Данные успешно добавлены</string>
+    <string name="sAddBioError">Ошибка записи данных!</string>
+    <string name="sDelBioOk">Показания успешно удалены</string>
+    <string name="sDelBioError">Ошибка удаления показаний!</string>
 </resources>
