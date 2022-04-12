@@ -5,5 +5,6 @@ data class Bio(
       val time: String? = null,
       val sys: Int? = null,
       val dia: Int? = null,
-      val pulse: Int? = null
+      val pulse: Int? = null,
+      val id: String = ""
 )

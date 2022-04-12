@@ -75,6 +75,7 @@ class FirebaseRepoImpl(
                 sys = document.get(SYS_FIELD)?.toString()?.toInt(),
                 dia = document.get(DIA_FIELD)?.toString()?.toInt(),
                 pulse = document.get(PULSE_FIELD)?.toString()?.toInt(),
+                id = document.id
             )
         } catch (e: Exception) {
             null
