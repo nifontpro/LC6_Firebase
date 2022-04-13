@@ -7,11 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -20,10 +17,15 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import ru.nifontbus.lc6_firebase.model.Bio
+import ru.nifontbus.lc6_firebase.screen.navigation.TemplateSwipeToDismiss
+import ru.nifontbus.lc6_firebase.ui.theme.DeleteColor
 import ru.nifontbus.lc6_firebase.ui.theme.normalPadding
 import ru.nifontbus.lc6_firebase.ui.theme.smallPadding
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 
 @Composable
@@ -33,10 +35,17 @@ fun MainScreen(
     val viewModel: MainViewModel = hiltViewModel()
     val bioList = viewModel.bioList.collectAsState().value
     val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    var job: Job by remember {
+        mutableStateOf(Job())
+    }
 
     LaunchedEffect(scaffoldState) {
         viewModel.message.collect { message ->
-            scaffoldState.snackbarHostState.showSnackbar(message)
+            job.cancel()
+            job = scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(message)
+            }
         }
     }
 
@@ -46,10 +55,10 @@ fun MainScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onAddScreen,
-                backgroundColor = MaterialTheme.colors.secondary
+                backgroundColor = DeleteColor
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = Icons.Default.Favorite,
                     contentDescription = "Add bio",
                     tint = MaterialTheme.colors.onSecondary
                 )
@@ -83,7 +92,13 @@ fun MainScreen(
                 }
 
                 items(listForInitial) { bio ->
-                    BioCard(bio)
+                    TemplateSwipeToDismiss(
+                        modifier = Modifier.fillMaxWidth(),
+                        onDelete = { viewModel.deleteBio(bio.id) }
+                    ) {
+                        BioCard(bio)
+                    }
+
                 }
 
                 item {
@@ -101,7 +116,7 @@ private fun BioCard(bio: Bio) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(40.dp)
-                .background(diaBrushColor(bio.dia ?: 0))
+                .background(sysBrushColor(bio.sys ?: 100))
         ) {
 
             Text(
@@ -114,7 +129,7 @@ private fun BioCard(bio: Bio) {
             )
 
             Text(
-                text = bio.dia.toString(),
+                text = bio.sys?.run { toString() } ?: "-",
                 style = MaterialTheme.typography.h5,
                 color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
@@ -128,7 +143,7 @@ private fun BioCard(bio: Bio) {
                 modifier = Modifier.align(Center)
             )
             Text(
-                text = bio.sys.toString(),
+                text = bio.dia?.run { toString() } ?: "-",
                 style = MaterialTheme.typography.h5,
                 color = MaterialTheme.colors.onBackground,
                 modifier = Modifier
@@ -149,7 +164,7 @@ private fun BioCard(bio: Bio) {
                     modifier = Modifier.size(15.dp)
                 )
                 Text(
-                    text = bio.pulse.toString(),
+                    text = bio.pulse?.run { toString() } ?: "-",
                     modifier = Modifier
                         .padding(horizontal = smallPadding)
                         .width(50.dp),
@@ -163,7 +178,7 @@ private fun BioCard(bio: Bio) {
 }
 
 @Composable
-fun diaBrushColor(dia: Int): Brush {
+fun sysBrushColor(dia: Int): Brush {
     val color = when (dia) {
         in 90..110 -> Color(0xFFFFFF99)
         in 111..130 -> Color(0xFF99FFDD)

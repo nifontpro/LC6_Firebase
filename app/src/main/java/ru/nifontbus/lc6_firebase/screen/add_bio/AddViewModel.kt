@@ -37,8 +37,11 @@ class AddViewModel @Inject constructor(
 
     fun addBio() = viewModelScope.launch {
 
+        val dn = day.value?.let { add0(it) } ?: ""
+        val dm = month.value?.let { add0(it) } ?: ""
+
         val bio = Bio(
-            date = "${day.value}.${month.value}.${year.value}",
+            date = "$dn${day.value}.$dm${month.value}.${year.value}",
             time = "${hour.value}:${minute.value}",
             sys = sys.value,
             dia = dia.value,
@@ -46,6 +49,9 @@ class AddViewModel @Inject constructor(
         )
         when (val result = repository.addBio(bio)) {
             is Resource.Success -> {
+                sys.value = null
+                dia.value = null
+                pulse.value = null
                 sendMessage(result.message)
             }
             is Resource.Error -> sendMessage(result.message)
@@ -60,4 +66,6 @@ class AddViewModel @Inject constructor(
         day.value != null && month.value != null && year.value != null &&
                 hour.value != null && minute.value != null &&
                 (sys.value != null || dia.value != null || pulse.value != null)
+
+    private fun add0(num: Int) = if (num < 10) "0" else ""
 }

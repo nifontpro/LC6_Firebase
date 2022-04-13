@@ -28,5 +28,5 @@ val OnSecondaryNight = Color(0xFFEEEEEE)
 val OnSurfaceNight = Color(0xFFD0D0D0)
 val OnErrorNight = Color(0xFF233E40)
 
-val DeleteColor = Color(0xA0FF3333)
+val DeleteColor = Color(0xFFFF3333)
 val Transparent = Color(0x00000000)

@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -34,7 +35,9 @@ import ru.nifontbus.lc6_firebase.ui.theme.normalPadding
 
 @ExperimentalComposeUiApi
 @Composable
-fun AddBioScreen() {
+fun AddBioScreen(
+    onBack: () -> Unit
+) {
     val viewModel: AddViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
 
@@ -78,13 +81,39 @@ fun AddBioScreen() {
             TimeCard(hour, minute, focusRequester)
             BioCard(sys, dia, pulse, focusRequester)
 
-            Button(
-                onClick = { viewModel.addBio() },
-                modifier = Modifier.padding(top = bigPadding),
-                enabled = viewModel.isEnabledSave()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bigPadding),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Сохранить", style = MaterialTheme.typography.h6)
+                val keyboardController = LocalSoftwareKeyboardController.current
+                Button(
+                    onClick = {
+                        viewModel.addBio()
+                        keyboardController?.hide()
+                    },
+                    enabled = viewModel.isEnabledSave(),
+                    modifier = Modifier.width(120.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.sSave),
+                        style = MaterialTheme.typography.body1,
+                    )
+                }
+
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier.width(120.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.sClose),
+                        style = MaterialTheme.typography.body1
+                    )
+                }
             }
+
         }
     }
 }
@@ -114,7 +143,7 @@ private fun DateCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Дата",
+            text = stringResource(R.string.sData),
             style = MaterialTheme.typography.h4,
         )
         Row(
@@ -126,7 +155,7 @@ private fun DateCard(
             IntTextField(
                 field = day,
                 modifier = editMod,
-                placeholder = "День",
+                placeholder = stringResource(R.string.sDay),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -138,7 +167,7 @@ private fun DateCard(
             IntTextField(
                 field = month,
                 modifier = editMod,
-                placeholder = "Месяц",
+                placeholder = stringResource(R.string.sMonth),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -150,7 +179,7 @@ private fun DateCard(
             IntTextField(
                 field = year,
                 modifier = editMod,
-                placeholder = "Год",
+                placeholder = stringResource(R.string.sYear),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -184,7 +213,7 @@ private fun TimeCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Время",
+            text = stringResource(R.string.sTime),
             style = MaterialTheme.typography.h4,
         )
         Row(
@@ -196,7 +225,7 @@ private fun TimeCard(
             IntTextField(
                 field = hour,
                 modifier = editMod,
-                placeholder = "Ч",
+                placeholder = stringResource(R.string.sHour),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -209,7 +238,7 @@ private fun TimeCard(
             IntTextField(
                 field = minutes,
                 modifier = editMod,
-                placeholder = "М",
+                placeholder = stringResource(R.string.sMinutes),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -246,7 +275,7 @@ private fun BioCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Показания",
+            text = stringResource(R.string.sIndication),
             style = MaterialTheme.typography.h4,
         )
         Row(
@@ -258,7 +287,7 @@ private fun BioCard(
             IntTextField(
                 field = sys,
                 modifier = editMod,
-                placeholder = "SYS",
+                placeholder = stringResource(R.string.sSys),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -271,7 +300,7 @@ private fun BioCard(
             IntTextField(
                 field = dia,
                 modifier = editMod,
-                placeholder = "DIA",
+                placeholder = stringResource(R.string.sDia),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Next)
                 }),
@@ -286,7 +315,7 @@ private fun BioCard(
             IntTextField(
                 field = pulse,
                 modifier = editMod,
-                placeholder = "Пульс",
+                placeholder = stringResource(R.string.sPulse),
                 imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(onDone = {
                     keyboardController?.hide()

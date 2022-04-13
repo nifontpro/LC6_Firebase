@@ -4,4 +4,17 @@
     <string name="sAddBioError">Ошибка записи данных!</string>
     <string name="sDelBioOk">Показания успешно удалены</string>
     <string name="sDelBioError">Ошибка удаления показаний!</string>
+    <string name="sData">Дата</string>
+    <string name="sDay">День</string>
+    <string name="sMonth">Месяц</string>
+    <string name="sYear">Год</string>
+    <string name="sTime">Время</string>
+    <string name="sHour">Чч</string>
+    <string name="sMinutes">Мм</string>
+    <string name="sIndication">Показания</string>
+    <string name="sSys">SYS</string>
+    <string name="sDia">DIA</string>
+    <string name="sPulse">Пульс</string>
+    <string name="sSave">Сохранить</string>
+    <string name="sClose">Закрыть</string>
 </resources>
